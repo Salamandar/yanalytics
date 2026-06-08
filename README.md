@@ -13,6 +13,7 @@ A YunoHost instances analytics server, inspired by https://www.home-assistant.io
 A number of informations is sent to our server:
 
 * A unique identifier for your installation, so each installation is only counted once.
+  It is derived from `/etc/machine-id` but is NOT identical to preserve privacy.
 * The Debian and YunoHost versions you are using
 * Hardware information:
   * architecture
