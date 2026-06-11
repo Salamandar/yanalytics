@@ -1,18 +1,27 @@
 #!/usr/bin/env python3
 
 import logging
+from collections.abc import AsyncGenerator
+from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import Literal
 
 from fastapi import FastAPI
 
-from .database import Statistic
+from .database import Statistic, YanalyticsDatabase
 
 
 def create_app(config: Path) -> FastAPI:
-    app = FastAPI(debug=True)
-
     logger = logging.getLogger()
+
+    database = YanalyticsDatabase()
+
+    @asynccontextmanager
+    async def lifespan(app: FastAPI) -> AsyncGenerator[None]:
+        database.initialize()
+        yield
+
+    app = FastAPI(debug=True, lifespan=lifespan)
 
     # Push a new statistic
     @app.post("/api/v1/instance/statistic", status_code=201)
