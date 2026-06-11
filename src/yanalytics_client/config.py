@@ -10,13 +10,24 @@ model_config = ConfigDict(
     extra="forbid",
 )
 
+class ConfigAnalytics(BaseModel):
+    model_config = model_config
+
+    hardware: bool = True
+    geo: bool = True
+    apps: bool = True
+    users: bool = True
+    domains: bool = True
+
 
 class Config(BaseModel):
     model_config = model_config
 
-    server: str
+    analytics_server: str = "https://analytics.yunohost.org"
+    machine_id: str | None = None
+    analytics: ConfigAnalytics = ConfigAnalytics()
 
-    machine_id: str
+    testing: bool = False
 
     def __init__(self, path: Path) -> None:
         try:

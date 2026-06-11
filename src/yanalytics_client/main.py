@@ -6,6 +6,8 @@ from pathlib import Path
 
 import requests
 
+from .config import Config
+
 
 class YanalyticsInstance:
     def __init__(self, server: str, machine_id: str | None) -> None:
@@ -50,7 +52,7 @@ def show_analytics(server: str) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("server", type=str, help="Yanalytics server")
+    parser.add_argument("-s", "--server", type=str, help="Yanalytics server", required=False)
     parser.add_argument("-c", "--config", type=Path, help="Configuration file")
 
     sub = parser.add_subparsers(required=True, dest="mode")
@@ -62,14 +64,15 @@ def main() -> None:
 
     args = parser.parse_args()
 
-    server = args.server
+    config = Config(args.config)
+
+    server = args.server or config.analytics_server
     if "://" not in server:
         server = f"https://{server}"
 
-
     match args.mode:
         case "instance":
-            instance = YanalyticsInstance(server, args.machine_id)
+            instance = YanalyticsInstance(server, args.machine_id or config.machine_id)
             match args.action:
                 case "push":
                     instance.push_stats()
