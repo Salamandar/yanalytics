@@ -10,8 +10,36 @@ from fastapi import FastAPI, Request, status
 from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
+from pydantic import BaseModel, ConfigDict
 
-from .database import Statistic, YanalyticsDatabase
+from .database import YanalyticsDatabase
+
+model_config = ConfigDict(
+    validate_default=True,
+    extra="forbid",
+)
+
+
+class HWStatistics(BaseModel):
+    arch: str
+    cpus: int
+    ram: int
+    disk: int
+
+
+class VersionsStatistics(BaseModel):
+    debian: str
+    yunohost: str
+
+
+class Statistic(BaseModel):
+    uuid: str
+    verasions: VersionsStatistics
+    hardware: HWStatistics | None = None
+    geocode: str | None = None
+    apps: list[str] | None = None
+    users_nb: int | None = None
+    domains_nb: int | None = None
 
 
 def create_app(config: Path) -> FastAPI:
@@ -47,7 +75,7 @@ def create_app(config: Path) -> FastAPI:
     @app.post("/api/v1/instance/statistic", status_code=201)
     def post_statistic(item: Statistic) -> dict:
         logger.debug("Getting statistic %s", item)
-        return {"message":"Item created successfully","item":item}
+        return {"message": "Item created successfully", "item": item}
 
     @app.delete("/api/v1/instance", status_code=202)
     def delete_machine(uuid: str) -> dict:
@@ -57,6 +85,5 @@ def create_app(config: Path) -> FastAPI:
     @app.get("api/v1/analytics/instances")
     def instances_count() -> dict[Literal["instances"], int]:
         return {"instances": 0}
-
 
     return app
