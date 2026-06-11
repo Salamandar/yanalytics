@@ -34,7 +34,7 @@ class YanalyticsInstance:
                 "yunohost": "",
             },
         }
-        url = f"{self.server}/api/v1/instance/statistic"
+        url = f"{self.server}/api/v1/instance/analytic"
         response = requests.post(url, json=data)
         self._raise_err(response)
 

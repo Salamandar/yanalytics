@@ -47,10 +47,10 @@ def create_app(config_path: Path) -> FastAPI:
             content=jsonable_encoder({"error": {"input_data": errors}}),
         )
 
-    # Push a new statistic
-    @app.post("/api/v1/instance/statistic", status_code=201)
-    def post_statistic(item: Analytic) -> dict:
-        logger.debug("Getting statistic %s", item)
+    # Push a new analytic
+    @app.post("/api/v1/instance/analytic", status_code=201)
+    def post_analytic(item: Analytic) -> dict:
+        logger.debug("Getting analytic %s", item)
         return {"message": "Item created successfully", "item": item}
 
     @app.delete("/api/v1/instance", status_code=202)
