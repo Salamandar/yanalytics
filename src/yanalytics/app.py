@@ -51,11 +51,13 @@ def create_app(config_path: Path) -> FastAPI:
     @app.post("/api/v1/instance/analytic", status_code=201)
     def post_analytic(item: Analytic) -> dict:
         logger.debug("Getting analytic %s", item)
+        database.insert_analytics(item)
         return {"message": "Item created successfully", "item": item}
 
     @app.delete("/api/v1/instance", status_code=202)
     def delete_machine(uuid: str) -> dict:
         logger.debug("Deleting machine %s", uuid)
+        database.delete_machine(uuid)
         return {}
 
     @app.get("api/v1/analytics/instances")

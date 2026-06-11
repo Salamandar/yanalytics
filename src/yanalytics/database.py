@@ -73,7 +73,7 @@ class App(Base):
     __tablename__ = "apps"
 
     name = sa.Column(sa.String(255), unique=True, nullable=False, primary_key=True)
-    instances = relationship("Instance", secondary=instance_apps, back_populates="apps")
+    instances = relationship("InstanceAnalytics", secondary=instance_apps, back_populates="apps")
 
 
 class YanalyticsDatabase:
@@ -101,7 +101,29 @@ class YanalyticsDatabase:
             conn.commit()
 
     def insert_analytics(self, analytic: Analytic) -> None:
-        pass
+        db_analytic = InstanceAnalytics(
+            uuid=analytic.uuid,
+            timestamp=_timestamp_default(),
+            debian_version=analytic.versions.debian,
+            yunohost_version=analytic.versions.yunohost,
+            arch=analytic.hardware.arch if analytic.hardware else None,
+            cpus=analytic.hardware.cpus if analytic.hardware else None,
+            ram_mb=analytic.hardware.ram if analytic.hardware else None,
+            disk_gb=analytic.hardware.disk if analytic.hardware else None,
+            geocode=analytic.geocode,
+            apps=analytic.apps or [],
+            users_nb=analytic.users_nb,
+            domains_nb=analytic.domains_nb,
+        )
+
+        with Session(self.engine) as session:
+            session.merge(db_analytic)
+            session.commit()
+
 
     def delete_machine(self, uuid: str) -> None:
-        pass
+        self.log.info("Deleting %s", uuid)
+        with Session(self.engine) as session:
+            stmt = sa.delete(InstanceAnalytics).where(InstanceAnalytics.uuid == uuid)
+            session.execute(stmt)
+            session.commit()
