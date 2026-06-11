@@ -43,11 +43,11 @@ This project is based on FastAPI, Uvicorn and Gunicorn.
 To run the development server:
 
 ```bash
-uv run uvicorn --reload "yanalytics.app:create_app()"
+YANALYTICS_CONFIG=_tests/config.yml uv run uvicorn --reload "yanalytics.asgi:app"
 ```
 
 To run the production server:
 
 ```bash
-uv run gunicorn "yanalytics.app:create_app()" -k uvicorn_worker.UvicornWorker
+YANALYTICS_CONFIG=_tests/config.yml uv run gunicorn "yanalytics.asgi:app" -k uvicorn_worker.UvicornWorker
 ```
