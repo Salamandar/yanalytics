@@ -10,37 +10,10 @@ from fastapi import FastAPI, Request, status
 from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
-from pydantic import BaseModel, ConfigDict
 
 from .config import Config
 from .database import YanalyticsDatabase
-
-model_config = ConfigDict(
-    validate_default=True,
-    extra="forbid",
-)
-
-
-class HWStatistics(BaseModel):
-    arch: str
-    cpus: int
-    ram: int
-    disk: int
-
-
-class VersionsStatistics(BaseModel):
-    debian: str
-    yunohost: str
-
-
-class Statistic(BaseModel):
-    uuid: str
-    verasions: VersionsStatistics
-    hardware: HWStatistics | None = None
-    geocode: str | None = None
-    apps: list[str] | None = None
-    users_nb: int | None = None
-    domains_nb: int | None = None
+from .types import Analytic
 
 
 def create_app(config_path: Path) -> FastAPI:
@@ -76,7 +49,7 @@ def create_app(config_path: Path) -> FastAPI:
 
     # Push a new statistic
     @app.post("/api/v1/instance/statistic", status_code=201)
-    def post_statistic(item: Statistic) -> dict:
+    def post_statistic(item: Analytic) -> dict:
         logger.debug("Getting statistic %s", item)
         return {"message": "Item created successfully", "item": item}
 
