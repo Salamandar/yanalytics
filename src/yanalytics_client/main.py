@@ -33,7 +33,6 @@ class YanalyticsInstance:
                 "debian": "",
                 "yunohost": "",
             },
-
         }
         url = f"{self.server}/api/v1/instance/statistic"
         response = requests.post(url, json=data)
@@ -52,7 +51,9 @@ def show_analytics(server: str) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("-s", "--server", type=str, help="Yanalytics server", required=False)
+    parser.add_argument(
+        "-s", "--server", type=str, help="Yanalytics server", required=False
+    )
     parser.add_argument("-c", "--config", type=Path, help="Configuration file")
 
     sub = parser.add_subparsers(required=True, dest="mode")

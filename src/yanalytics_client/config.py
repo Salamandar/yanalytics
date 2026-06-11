@@ -10,6 +10,7 @@ model_config = ConfigDict(
     extra="forbid",
 )
 
+
 class ConfigAnalytics(BaseModel):
     model_config = model_config
 
