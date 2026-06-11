@@ -12,6 +12,7 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, ConfigDict
 
+from .config import Config
 from .database import YanalyticsDatabase
 
 model_config = ConfigDict(
@@ -42,10 +43,12 @@ class Statistic(BaseModel):
     domains_nb: int | None = None
 
 
-def create_app(config: Path) -> FastAPI:
+def create_app(config_path: Path) -> FastAPI:
+    config = Config(config_path)
+
     logger = logging.getLogger()
 
-    database = YanalyticsDatabase()
+    database = YanalyticsDatabase(config.database)
 
     @asynccontextmanager
     async def lifespan(app: FastAPI) -> AsyncGenerator[None]:
