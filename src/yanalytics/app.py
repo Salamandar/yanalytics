@@ -13,7 +13,7 @@ from fastapi.responses import JSONResponse
 
 from .config import Config
 from .database import YanalyticsDatabase
-from .types import Analytic
+from .types import Analytic, AnalyticsAggregate
 
 
 def create_app(config_path: Path) -> FastAPI:
@@ -60,8 +60,10 @@ def create_app(config_path: Path) -> FastAPI:
         database.delete_machine(uuid)
         return {}
 
-    @app.get("api/v1/analytics/instances")
-    def instances_count() -> dict[Literal["instances"], int]:
-        return {"instances": 0}
+    @app.get("api/v1/analytics/all")
+    def instances_count() -> AnalyticsAggregate:
+        return AnalyticsAggregate(
+            instances=[(0, 0)]
+        )
 
     return app

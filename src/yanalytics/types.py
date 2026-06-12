@@ -26,3 +26,8 @@ class Analytic(BaseModel):
     apps: list[str] | None = None
     users_nb: int | None = None
     domains_nb: int | None = None
+
+
+class AnalyticsAggregate(BaseModel):
+    # Timestamped number of instances
+    instances: list[tuple[int,int]]
