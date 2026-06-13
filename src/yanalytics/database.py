@@ -103,7 +103,7 @@ class YanalyticsDatabase:
 
             conn.commit()
 
-    def insert_analytics(self, analytic: Analytic) -> None:
+    async def insert_analytics(self, analytic: Analytic) -> None:
 
         db_analytic = InstanceAnalytics(
             uuid=analytic.uuid,
@@ -132,7 +132,7 @@ class YanalyticsDatabase:
             session.merge(db_analytic)
             session.commit()
 
-    def delete_machine(self, uuid: str) -> None:
+    async def delete_machine(self, uuid: str) -> None:
         self.log.info("Deleting %s", uuid)
         with Session(self.engine) as session:
             stmt = sa.delete(InstanceAnalytics).where(InstanceAnalytics.uuid == uuid)
