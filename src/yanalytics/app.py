@@ -3,6 +3,7 @@
 import logging
 from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
+from functools import cache
 from pathlib import Path
 
 from fastapi import FastAPI, Request, status
@@ -59,8 +60,33 @@ def create_app(config_path: Path) -> FastAPI:
         await database.delete_machine(uuid)
         return {}
 
-    @app.get("api/v1/analytics/all")
-    def instances_count() -> AnalyticsAggregate:
-        return AnalyticsAggregate(instances=[(0, 0)])
+    @cache
+    async def compute_analytics_data() -> AnalyticsAggregate:
+        data = AnalyticsAggregate(
+            instances=[],
+            apps={},
+            versions={},
+            arch={},
+            cpus={},
+            ram={},
+            disk={},
+            users={},
+            domains={},
+        )
+
+        # TODO save json?
+        return data
+
+    @app.get("/api/v1/analytics/all")
+    async def analytics() -> AnalyticsAggregate:
+        return await compute_analytics_data()
+
+    if config.testing:
+        @app.post("/api/v1/analytics/sync")
+        async def recompute_analytics_data() -> None:
+            compute_analytics_data.cache_clear()
+            await compute_analytics_data()
+
+
 
     return app

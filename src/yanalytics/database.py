@@ -138,3 +138,10 @@ class YanalyticsDatabase:
             stmt = sa.delete(InstanceAnalytics).where(InstanceAnalytics.uuid == uuid)
             session.execute(stmt)
             session.commit()
+
+    async def aggregate(self) -> None:
+        now = _timestamp_default()
+        with Session(self.engine) as session:
+            instances_nb = session.query(InstanceAnalytics).count()
+
+            pass
