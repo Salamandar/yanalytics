@@ -14,6 +14,7 @@ from sqlalchemy.orm import (
     relationship,
 )
 
+from . import utils
 from .types import Analytic
 
 Base = declarative_base()
@@ -104,21 +105,30 @@ class YanalyticsDatabase:
         db_analytic = InstanceAnalytics(
             uuid=analytic.uuid,
             timestamp=_timestamp_default(),
-            debian_version=analytic.versions.debian,
-            yunohost_version=analytic.versions.yunohost,
-            arch=analytic.hardware.arch if analytic.hardware else None,
-            cpus=analytic.hardware.cpus if analytic.hardware else None,
-            ram_mb=analytic.hardware.ram if analytic.hardware else None,
-            disk_gb=analytic.hardware.disk if analytic.hardware else None,
-            geocode=analytic.geocode,
+            debian_version=utils.reduce_version_debian(analytic.versions.debian),
+            yunohost_version=utils.reduce_version_yunohost(analytic.versions.yunohost),
+            arch=utils.reduce_arch(
+                analytic.hardware.arch if analytic.hardware else None
+            ),
+            cpus=utils.reduce_cpus(
+                analytic.hardware.cpus if analytic.hardware else None
+            ),
+            ram_mb=utils.reduce_bytes(
+                analytic.hardware.ram if analytic.hardware else None
+            ),
+            disk_gb=utils.reduce_bytes(
+                analytic.hardware.disk if analytic.hardware else None
+            ),
+            geocode=utils.geoip(analytic.geocode),
             apps=analytic.apps or [],
-            users_nb=analytic.users_nb,
-            domains_nb=analytic.domains_nb,
+            users_nb=utils.reduce_users_nb(analytic.users_nb),
+            domains_nb=utils.reduce_domains_nb(analytic.domains_nb),
         )
 
         with Session(self.engine) as session:
             session.merge(db_analytic)
             session.commit()
+
 
 
     def delete_machine(self, uuid: str) -> None:
