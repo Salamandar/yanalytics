@@ -74,7 +74,9 @@ class App(Base):
     __tablename__ = "apps"
 
     name = sa.Column(sa.String(255), unique=True, nullable=False, primary_key=True)
-    instances = relationship("InstanceAnalytics", secondary=instance_apps, back_populates="apps")
+    instances = relationship(
+        "InstanceAnalytics", secondary=instance_apps, back_populates="apps"
+    )
 
 
 class YanalyticsDatabase:
@@ -102,6 +104,7 @@ class YanalyticsDatabase:
             conn.commit()
 
     def insert_analytics(self, analytic: Analytic) -> None:
+
         db_analytic = InstanceAnalytics(
             uuid=analytic.uuid,
             timestamp=_timestamp_default(),
@@ -128,8 +131,6 @@ class YanalyticsDatabase:
         with Session(self.engine) as session:
             session.merge(db_analytic)
             session.commit()
-
-
 
     def delete_machine(self, uuid: str) -> None:
         self.log.info("Deleting %s", uuid)

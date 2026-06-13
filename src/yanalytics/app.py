@@ -4,7 +4,6 @@ import logging
 from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
 from pathlib import Path
-from typing import Literal
 
 from fastapi import FastAPI, Request, status
 from fastapi.encoders import jsonable_encoder
@@ -62,8 +61,6 @@ def create_app(config_path: Path) -> FastAPI:
 
     @app.get("api/v1/analytics/all")
     def instances_count() -> AnalyticsAggregate:
-        return AnalyticsAggregate(
-            instances=[(0, 0)]
-        )
+        return AnalyticsAggregate(instances=[(0, 0)])
 
     return app

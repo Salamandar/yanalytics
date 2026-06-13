@@ -30,4 +30,4 @@ class Analytic(BaseModel):
 
 class AnalyticsAggregate(BaseModel):
     # Timestamped number of instances
-    instances: list[tuple[int,int]]
+    instances: list[tuple[int, int]]
