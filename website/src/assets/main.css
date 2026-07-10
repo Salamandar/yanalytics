@@ -2,6 +2,7 @@
 
 :root {
   --bg-color: #222;
+  --font-source-sans: 'Source Sans 3 Variable', sans-serif;
 }
 
 #app {
@@ -13,6 +14,6 @@
 
   background-color: var(--bg-color);
   color: white;
-  /*font-family: var(--font-source-sans);*/
+  font-family: var(--font-source-sans);
   font-size: 1.2rem;
 }
