@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import Header from './components/Header.vue'
-import Analytics from './components/Analytics.vue'
+import MainHeader from './components/MainHeader.vue';
+import AnalyticsView from './components/AnalyticsView.vue'
 </script>
 
 <template>
   <div id="container">
-    <Header />
+    <MainHeader />
     <div id="summary">
       YunoHost allows users to share their data. It helps developers where to direct their efforts.
     </div>
 
-    <Analytics />
+    <AnalyticsView />
   </div>
 </template>
 
