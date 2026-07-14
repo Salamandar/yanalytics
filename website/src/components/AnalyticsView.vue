@@ -9,30 +9,41 @@ onMounted(async () => {
   const analyticsJson = await getAnalyticsStats()
 
   const instancesData = analyticsJson.instances
-  new Chart('instancesChart', {
+  const instancesConfig: ChartConfiguration = {
     type: 'line',
-    // options: {
-    //   parsing: false,
-    //   responsive: false,
-    //   scales: {
-    //     x: {
-    //       type: 'time',
-    //     }
-    //   }
-    // },
+    options: {
+      plugins: {
+        tooltip: {
+          mode: 'index',
+        },
+      },
+      interaction: {
+        mode: 'nearest',
+        axis: 'x',
+        intersect: false,
+      },
+      responsive: true,
+    },
     data: {
       labels: instancesData.map((row) => row.year),
       datasets: [
         {
-          label: 'Total instances',
-          data: instancesData.map((row) => row.count),
+          label: 'Yunohost 12 (Debian Bookworm)',
+          data: instancesData.map((row) => row.v12),
+          cubicInterpolationMode: 'monotone',
+        },
+        {
+          label: 'Yunohost 13 (Debian Trixie)',
+          data: instancesData.map((row) => row.v13),
+          cubicInterpolationMode: 'monotone',
         },
       ],
     },
-  })
+  }
+  new Chart('instancesChart', instancesConfig)
 
   const appsNbData = analyticsJson.apps_nb
-  new Chart('appsNbChart', {
+  const appsNbConfig: ChartConfiguration = {
     type: 'bar',
     data: {
       labels: appsNbData.map((row) => row.year),
@@ -43,9 +54,9 @@ onMounted(async () => {
         },
       ],
     },
-  })
+  }
+  new Chart('appsNbChart', appsNbConfig)
 })
-// customElements.define('analytics-block', Analytics);
 </script>
 
 <template>
