@@ -4,12 +4,26 @@ import Chart from 'chart.js/auto'
 
 import ChartBlock from './ChartBlock.vue'
 
-import analyticsJson from '../assets/analytics.json'
+function serverUrl(): string {
+  const base = import.meta.env.BASE_URL
+  let server = ''
+  if (window.location.href.startsWith(base)) {
+    server = base
+  } else if (window.location.pathname.startsWith(base)) {
+    server = `${window.location.origin}${base}`
+  }
+  console.log(`server = ${server}`)
+  return server
+}
 
+interface AnalyticsData {
+  instances: [{ year: number; count: number }];
+  apps_nb: [{ year: number; count: number }];
+}
 
 onMounted(async () => {
-  // const base = import.meta.env.BASE_URL
-
+  const server = serverUrl()
+  const analyticsJson: AnalyticsData = await (await fetch(`${server}/api/v1/analytics`)).json()
 
   const instancesData = analyticsJson.instances
   new Chart('instancesChart', {
@@ -49,7 +63,6 @@ onMounted(async () => {
   })
 })
 // customElements.define('analytics-block', Analytics);
-
 </script>
 
 <template>
