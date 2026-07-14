@@ -29,6 +29,7 @@ dev = [
 ]
 
 [project.scripts]
+yanalytics = "yanalytics:asgi.main"
 yanalytics-client = "yanalytics_client:main.main"
 
 [build-system]
