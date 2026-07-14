@@ -6,7 +6,7 @@ from pathlib import Path
 
 import requests
 
-from .config import Config
+from .config import get_config
 
 
 class YanalyticsInstance:
@@ -65,7 +65,7 @@ def main() -> None:
 
     args = parser.parse_args()
 
-    config = Config(args.config)
+    config = get_config(args.config)
 
     server = args.server or config.analytics_server
     if "://" not in server:

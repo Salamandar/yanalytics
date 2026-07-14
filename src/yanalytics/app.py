@@ -11,13 +11,13 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 
-from .config import Config
+from .config import get_config
 from .database import YanalyticsDatabase
 from .types import Analytic, AnalyticsAggregate
 
 
 def create_app(config_path: Path) -> FastAPI:
-    config = Config(config_path)
+    config = get_config(config_path)
 
     logger = logging.getLogger()
 
