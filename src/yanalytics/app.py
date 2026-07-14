@@ -4,21 +4,18 @@ import logging
 from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
 from functools import cache
-from pathlib import Path
 
 from fastapi import FastAPI, Request, status
 from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 
-from .config import get_config
+from .config import Config
 from .database import YanalyticsDatabase
 from .types import Analytic, AnalyticsAggregate
 
 
-def create_app(config_path: Path) -> FastAPI:
-    config = get_config(config_path)
-
+def create_app(config: Config) -> FastAPI:
     logger = logging.getLogger()
 
     database = YanalyticsDatabase(config.database)

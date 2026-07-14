@@ -4,11 +4,10 @@ import os
 from pathlib import Path
 
 from .app import create_app
+from .config import get_config
 
-config = Path(os.environ.get("YANALYTICS_CONFIG", "config.yml"))
-
-if not config.exists():
-    raise RuntimeError(f"Configuration file {config} does not exist!")
+config_path = Path(os.environ.get("YANALYTICS_CONFIG", "config.yml"))
+config = get_config(config_path)
 
 app = create_app(config)
 
