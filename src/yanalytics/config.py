@@ -14,10 +14,16 @@ class CustomModel(BaseModel):
     )
 
 
+class Server(CustomModel):
+    host: str = "127.0.0.1"
+    port: int = 8001
+
+
 class Config(CustomModel):
     database: Path
-
+    server: Server = Server()
     testing: bool = False
+    logging: bool = True
 
 
 def get_config(path: Path) -> Config:

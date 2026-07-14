@@ -3,6 +3,8 @@
 import os
 from pathlib import Path
 
+import uvicorn
+
 from .app import create_app
 from .config import get_config
 
@@ -11,7 +13,16 @@ config = get_config(config_path)
 
 app = create_app(config)
 
-if __name__ == "__main__":
-    import uvicorn
 
-    uvicorn.run(app)
+def main() -> None:
+    uvicorn.run(
+        "yanalytics.asgi:app",
+        host=config.server.host,
+        port=config.server.port,
+        reload=config.testing,
+        access_log=config.logging,
+    )
+
+
+if __name__ == "__main__":
+    main()
