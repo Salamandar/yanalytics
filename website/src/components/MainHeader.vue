@@ -25,4 +25,11 @@ header {
 .site-title img {
   height: 2em;
 }
+
+@media (prefers-color-scheme: light) {
+  .site-title > img {
+    filter: invert(1)
+  }
+}
+
 </style>

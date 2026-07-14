@@ -16,7 +16,6 @@ import AnalyticsView from './components/AnalyticsView.vue'
 
 <style scoped>
 #container {
-  height: 100%;
   padding: 2rem;
   max-width: 1000px;
   margin: auto;
@@ -27,7 +26,6 @@ import AnalyticsView from './components/AnalyticsView.vue'
 }
 
 main {
-  height: 100%;
   display: flex;
   justify-content: center;
 }
