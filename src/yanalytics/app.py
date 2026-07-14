@@ -27,6 +27,8 @@ def create_app(config: Config) -> FastAPI:
 
     app = FastAPI(debug=True, lifespan=lifespan)
 
+    app.frontend("/", directory=config.server.frontend)
+
     @app.exception_handler(RequestValidationError)
     async def validation_exception_handler(
         _: Request, exc: RequestValidationError

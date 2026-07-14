@@ -17,6 +17,7 @@ class CustomModel(BaseModel):
 class Server(CustomModel):
     host: str = "127.0.0.1"
     port: int = 8001
+    frontend: Path = Path(__file__).parent.parent.parent / "website" / "dist"
 
 
 class Config(CustomModel):
