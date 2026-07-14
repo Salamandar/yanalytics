@@ -1,34 +1,12 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
-import Chart from 'chart.js/auto'
+import Chart, { type ChartConfiguration } from 'chart.js/auto'
 
 import ChartBlock from './ChartBlock.vue'
-
-function serverUrl(): string {
-  const api_server = import.meta.env.VITE_API_SERVER
-  if (api_server != '') {
-    return api_server
-  }
-
-  const base = import.meta.env.BASE_URL
-  let server = ''
-  if (window.location.href.startsWith(base)) {
-    server = base
-  } else if (window.location.pathname.startsWith(base)) {
-    server = `${window.location.origin}${base}`
-  }
-  console.log(`server = ${server}`)
-  return server
-}
-
-interface AnalyticsData {
-  instances: [{ year: number; count: number }];
-  apps_nb: [{ year: number; count: number }];
-}
+import { getAnalyticsStats } from './api'
 
 onMounted(async () => {
-  const server = serverUrl()
-  const analyticsJson: AnalyticsData = await (await fetch(`${server}/api/v1/analytics`)).json()
+  const analyticsJson = await getAnalyticsStats()
 
   const instancesData = analyticsJson.instances
   new Chart('instancesChart', {

@@ -28,8 +28,7 @@ header {
 
 @media (prefers-color-scheme: light) {
   .site-title > img {
-    filter: invert(1)
+    filter: invert(1);
   }
 }
-
 </style>
