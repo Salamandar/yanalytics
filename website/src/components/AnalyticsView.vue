@@ -5,6 +5,11 @@ import Chart from 'chart.js/auto'
 import ChartBlock from './ChartBlock.vue'
 
 function serverUrl(): string {
+  const api_server = import.meta.env.VITE_API_SERVER
+  if (api_server != '') {
+    return api_server
+  }
+
   const base = import.meta.env.BASE_URL
   let server = ''
   if (window.location.href.startsWith(base)) {
