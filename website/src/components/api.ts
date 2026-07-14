@@ -1,4 +1,3 @@
-
 export function serverUrl(): string {
   const api_server = import.meta.env.VITE_API_SERVER
   if (api_server !== undefined && api_server !== '') {
@@ -29,20 +28,18 @@ export async function getAnalyticsStats(): Promise<AnalyticsStatsData> {
 }
 
 export interface AnalyticsAppsData {
-  apps: [
-    {
-      id: string;
-      name: string;
-      count: number;
-      percent: number;
-    }
-  ]
+  id: string
+  name: string
+  count: number
+  percent: number
 }
 
-export async function getAnalyticsApps(): Promise<AnalyticsAppsData> {
+export async function getAnalyticsApps(): Promise<[AnalyticsAppsData]> {
   const server = serverUrl()
   const analyticsUrl = `${server}/api/v1/analytics/apps`.replace(/(?<!:)\/+/g, '/')
   return fetch(analyticsUrl).then(async (response) => {
-    return response.json()
+    return response.json().then(async (json) => {
+      return json.apps
+    })
   })
 }
