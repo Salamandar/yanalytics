@@ -8,6 +8,7 @@ from functools import cache
 from fastapi import FastAPI, Request, status
 from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import RequestValidationError
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from .config import Config
@@ -25,7 +26,17 @@ def create_app(config: Config) -> FastAPI:
         database.initialize()
         yield
 
-    app = FastAPI(debug=True, lifespan=lifespan)
+    app = FastAPI(debug=config.testing, lifespan=lifespan)
+
+    if config.testing:
+        origins = ["*"]
+        app.add_middleware(
+            CORSMiddleware,
+            allow_origins=origins,
+            allow_credentials=True,
+            allow_methods=["*"],
+            allow_headers=["*"],
+        )
 
     app.frontend("/", directory=config.server.frontend)
 
