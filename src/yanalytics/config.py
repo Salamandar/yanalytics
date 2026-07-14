@@ -6,15 +6,15 @@ from pathlib import Path
 import yaml
 from pydantic import BaseModel, ConfigDict, ValidationError
 
-model_config = ConfigDict(
-    validate_default=True,
-    extra="forbid",
-)
+
+class CustomModel(BaseModel):
+    model_config = ConfigDict(
+        validate_default=True,
+        extra="forbid",
+    )
 
 
-class Config(BaseModel):
-    model_config = model_config
-
+class Config(CustomModel):
     database: Path
 
     testing: bool = False
