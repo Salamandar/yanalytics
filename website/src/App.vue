@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import MainHeader from './components/MainHeader.vue'
-import AnalyticsView from './components/AnalyticsView.vue'
 </script>
 
 <template>
@@ -10,7 +9,7 @@ import AnalyticsView from './components/AnalyticsView.vue'
       YunoHost allows users to share their data. It helps developers where to direct their efforts.
     </div>
 
-    <AnalyticsView />
+    <RouterView />
   </div>
 </template>
 

@@ -27,3 +27,22 @@ export async function getAnalyticsStats(): Promise<AnalyticsStatsData> {
     return response.json()
   })
 }
+
+export interface AnalyticsAppsData {
+  apps: [
+    {
+      id: string;
+      name: string;
+      count: number;
+      percent: number;
+    }
+  ]
+}
+
+export async function getAnalyticsApps(): Promise<AnalyticsAppsData> {
+  const server = serverUrl()
+  const analyticsUrl = `${server}/api/v1/analytics/apps`.replace(/(?<!:)\/+/g, '/')
+  return fetch(analyticsUrl).then(async (response) => {
+    return response.json()
+  })
+}
