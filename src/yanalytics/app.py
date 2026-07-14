@@ -81,11 +81,10 @@ def create_app(config: Config) -> FastAPI:
         return await compute_analytics_data()
 
     if config.testing:
+
         @app.post("/api/v1/analytics/sync")
         async def recompute_analytics_data() -> None:
             compute_analytics_data.cache_clear()
             await compute_analytics_data()
-
-
 
     return app
