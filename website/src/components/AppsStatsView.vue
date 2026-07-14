@@ -12,23 +12,31 @@ onMounted(async () => {
 
 <template>
   <table class="apps-table">
-    <tr>
-      <th class="apps-idx" />
-      <th class="apps-name">Name</th>
-      <th class="apps-installations">Installations</th>
-    </tr>
-    <tr v-for="(app, idx) in apps" :key="`entity-${app.id}`">
-      <td class="apps-idx">{{ idx + 1 }}</td>
-      <td class="apps-name">
-        <a title="Appstore page" :href="`https://apps.yunohost.org/app/${app.id}`" target="_blank">
-          <img
-            :src="`https://raw.githubusercontent.com/YunoHost/apps/refs/heads/main/logos/${app.id}.png`"
-          />
-          <span>{{ app.name }}</span>
-        </a>
-      </td>
-      <td class="apps-installations">{{ app.count }} ({{ app.percent }}%)</td>
-    </tr>
+    <thead>
+      <tr>
+        <th class="apps-idx" />
+        <th class="apps-name">Name</th>
+        <th class="apps-installations">Installations</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="(app, idx) in apps" :key="`entity-${app.id}`">
+        <td class="apps-idx">{{ idx + 1 }}</td>
+        <td class="apps-name">
+          <a
+            title="Appstore page"
+            :href="`https://apps.yunohost.org/app/${app.id}`"
+            target="_blank"
+          >
+            <img
+              :src="`https://raw.githubusercontent.com/YunoHost/apps/refs/heads/main/logos/${app.id}.png`"
+            />
+            <span>{{ app.name }}</span>
+          </a>
+        </td>
+        <td class="apps-installations">{{ app.count }} ({{ app.percent }}%)</td>
+      </tr>
+    </tbody>
   </table>
 </template>
 
