@@ -1,13 +1,9 @@
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>
 
 <template>
-<div class="centered">
-  <span>
-  This page was not found!
-</span>
-</div>
-
+  <div class="centered">
+    <span> This page was not found! </span>
+  </div>
 </template>
 
 <style scoped>
@@ -15,5 +11,4 @@
   margin-top: 3em;
   text-align: center;
 }
-
 </style>
