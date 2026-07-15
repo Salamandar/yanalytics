@@ -14,7 +14,7 @@ onMounted(async () => {
   <table class="apps-table">
     <thead>
       <tr>
-        <th class="apps-idx"/>
+        <th class="apps-idx"></th>
         <th class="apps-name">Name</th>
         <th class="apps-installations">Installations</th>
       </tr>
@@ -62,6 +62,7 @@ onMounted(async () => {
 
 .apps-idx {
   width: 32px;
+  text-align: right;
 }
 
 .apps-name {
