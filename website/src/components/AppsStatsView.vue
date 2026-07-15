@@ -2,7 +2,7 @@
 import { onMounted, ref, type Ref } from 'vue'
 import { getAnalyticsApps, type AnalyticsAppsData } from './api'
 
-const apps: Ref<[AnalyticsAppsData]> = ref([] as AnalyticsAppsData[])
+const apps: Ref<AnalyticsAppsData[]> = ref([])
 
 onMounted(async () => {
   const analyticsJson = await getAnalyticsApps()
