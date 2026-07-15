@@ -14,7 +14,7 @@ onMounted(async () => {
   <table class="apps-table">
     <thead>
       <tr>
-        <th class="apps-idx" />
+        <th class="apps-idx"/>
         <th class="apps-name">Name</th>
         <th class="apps-installations">Installations</th>
       </tr>
@@ -43,6 +43,7 @@ onMounted(async () => {
 <style scoped>
 .apps-table {
   background-color: var(--color-background-mute);
+  border-collapse: collapse;
   width: 100%;
 }
 
@@ -50,9 +51,13 @@ onMounted(async () => {
   font-weight: bold;
 }
 
-.apps-table > tr > th,
-.apps-table > tr > td {
-  padding: 8px;
+.apps-table tbody tr {
+  border-top: 1px solid black;
+}
+
+.apps-table th,
+.apps-table td {
+  padding: 16px;
 }
 
 .apps-idx {
@@ -69,8 +74,8 @@ onMounted(async () => {
 }
 
 .apps-name img {
-  height: 2rem;
-  width: 2rem;
+  height: 1.6rem;
+  width: 1.6rem;
   display: inline-block;
   vertical-align: center;
   margin-right: 1rem;
