@@ -12,6 +12,9 @@ onMounted(async () => {
   const instancesConfig: ChartConfiguration = {
     type: 'line',
     options: {
+      animation: {
+        duration: 0
+      },
       plugins: {
         tooltip: {
           mode: 'index',
@@ -45,6 +48,11 @@ onMounted(async () => {
   const appsNbData = analyticsJson.apps_nb
   const appsNbConfig: ChartConfiguration = {
     type: 'bar',
+    options: {
+      animation: {
+        duration: 0
+      }
+    },
     data: {
       labels: appsNbData.map((row) => row.year),
       datasets: [

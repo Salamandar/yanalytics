@@ -20,6 +20,9 @@ onMounted(async () => {
   const instancesConfig: ChartConfiguration = {
     type: 'line',
     options: {
+      animation: {
+        duration: 0
+      },
       scales: {
         x: {
           type: 'time',
@@ -58,7 +61,6 @@ onMounted(async () => {
       ],
     },
   }
-  console.log(instancesConfig)
   new Chart('appsCountChart', instancesConfig)
 })
 </script>
