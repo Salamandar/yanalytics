@@ -25,6 +25,7 @@ dev = [
     "gunicorn",
     "ruff",
     "mypy",
+    "types-PyYAML",
 ]
 
 [project.scripts]
