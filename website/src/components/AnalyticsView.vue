@@ -60,47 +60,28 @@ onMounted(async () => {
 </script>
 
 <template>
-  <span id="analytics" data-analyticsdata="{analyticsData}">
+  <span class="analytics-container" data-analyticsdata="{analyticsData}">
     <ChartBlock chartId="instancesChart" title="Active instances" />
     <ChartBlock chartId="appsNbChart" title="Number of apps" />
   </span>
 </template>
 
 <style scoped>
-@media screen and (max-height: 368px) {
-  #news {
-    display: none;
-  }
+
+.analytics-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.analytics-container > * {
+  min-width: 600px;
+  flex: 50%;
 }
 
 @media screen and (max-width: 768px) {
-  #container {
+  #analytics {
     display: flex;
     flex-direction: column;
-  }
-
-  #hero {
-    display: block;
-    padding-top: 10%;
-  }
-
-  #links {
-    flex-wrap: wrap;
-  }
-
-  #links a.button {
-    padding: 14px 18px;
-  }
-
-  #news {
-    right: 16px;
-    left: 16px;
-    bottom: 2.5rem;
-    max-width: 100%;
-  }
-
-  h1 {
-    line-height: 1.5;
   }
 }
 </style>

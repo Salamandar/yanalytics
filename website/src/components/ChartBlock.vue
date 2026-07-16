@@ -17,6 +17,6 @@ canvas {
   box-sizing: border-box;
 }
 div {
-  margin: 1rem;
+  padding: 1rem;
 }
 </style>

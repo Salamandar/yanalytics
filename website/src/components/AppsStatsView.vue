@@ -101,16 +101,17 @@ onMounted(async () => {
 <style scoped>
 .apps-container {
   display: flex;
+  flex-wrap: wrap;
 }
 
-.apps-chart {
+.apps-container > * {
+  min-width: 400px;
   flex: 50%;
 }
 
 .apps-table {
   background-color: var(--color-background-mute);
   border-collapse: collapse;
-  flex: 50%;
 }
 
 .apps-table th {
