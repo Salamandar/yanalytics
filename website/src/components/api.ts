@@ -27,19 +27,24 @@ export async function getAnalyticsStats(): Promise<AnalyticsStatsData> {
   })
 }
 
-export interface AnalyticsAppsData {
+export interface AnalyticsAppsDetail {
   id: string
   name: string
   count: number
   percent: number
 }
 
-export async function getAnalyticsApps(): Promise<[AnalyticsAppsData]> {
+export interface AnalyticsAppsData {
+  count_history: object
+  details: AnalyticsAppsDetail[]
+}
+
+export async function getAnalyticsApps(): Promise<AnalyticsAppsData> {
   const server = serverUrl()
   const analyticsUrl = `${server}/api/v1/analytics/apps`.replace(/(?<!:)\/+/g, '/')
   return fetch(analyticsUrl).then(async (response) => {
     return response.json().then(async (json) => {
-      return json.apps
+      return json
     })
   })
 }

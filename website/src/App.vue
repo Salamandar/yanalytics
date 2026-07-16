@@ -16,7 +16,7 @@ import MainHeader from './components/MainHeader.vue'
 <style scoped>
 #container {
   padding: 2rem;
-  max-width: 1000px;
+  max-width: 1400px;
   margin: auto;
 }
 

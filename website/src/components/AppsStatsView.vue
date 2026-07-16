@@ -1,50 +1,116 @@
 <script setup lang="ts">
 import { onMounted, ref, type Ref } from 'vue'
-import { getAnalyticsApps, type AnalyticsAppsData } from './api'
+import Chart, { type ChartConfiguration } from 'chart.js/auto'
+import 'chartjs-adapter-moment';
 
-const apps: Ref<AnalyticsAppsData[]> = ref([])
+import { getAnalyticsApps, type AnalyticsAppsDetail } from './api'
+import ChartBlock from './ChartBlock.vue'
+
+const apps: Ref<AnalyticsAppsDetail[]> = ref([])
 
 onMounted(async () => {
   const analyticsJson = await getAnalyticsApps()
-  apps.value = analyticsJson
+  apps.value = analyticsJson.details
+
+  const instancesData = analyticsJson.count_history
+  const history = Array.from(
+    Object.entries(instancesData),
+    ([k, v]) => ({x: k, y: v})
+  )
+  const instancesConfig: ChartConfiguration = {
+    type: 'line',
+    options: {
+      scales: {
+        x: {
+          type: 'time',
+          time: {
+            displayFormats: {
+              month: 'YYYY-MM-DD',
+            },
+          },
+        },
+      },
+      plugins: {
+        tooltip: {
+          mode: 'index',
+        },
+      },
+      interaction: {
+        mode: 'nearest',
+        axis: 'x',
+        intersect: false,
+      },
+      responsive: true,
+      elements: {
+        point: {
+          pointStyle: false
+        }
+      }
+    },
+    data: {
+      datasets: [
+        {
+          label: 'Number of apps',
+          data: history,
+          cubicInterpolationMode: 'monotone',
+        },
+      ],
+    },
+  }
+  console.log(instancesConfig)
+  new Chart('appsCountChart', instancesConfig)
 })
 </script>
 
 <template>
-  <table class="apps-table">
-    <thead>
-      <tr>
-        <th class="apps-idx"></th>
-        <th class="apps-name">Name</th>
-        <th class="apps-installations">Installations</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="(app, idx) in apps" :key="`entity-${app.id}`">
-        <td class="apps-idx">{{ idx + 1 }}</td>
-        <td class="apps-name">
-          <a
-            title="Appstore page"
-            :href="`https://apps.yunohost.org/app/${app.id}`"
-            target="_blank"
-          >
-            <img
-              :src="`https://raw.githubusercontent.com/YunoHost/apps/refs/heads/main/logos/${app.id}.png`"
-            />
-            <span>{{ app.name }}</span>
-          </a>
-        </td>
-        <td class="apps-installations">{{ app.count }} ({{ app.percent }}%)</td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="apps-container">
+    <div class="apps-chart">
+      <ChartBlock chartId="appsCountChart" title="Number of apps" />
+
+    </div>
+    <table class="apps-table">
+      <thead>
+        <tr>
+          <th class="apps-idx"></th>
+          <th class="apps-name">Name</th>
+          <th class="apps-installations">Installations</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(app, idx) in apps" :key="`entity-${app.id}`">
+          <td class="apps-idx">{{ idx + 1 }}</td>
+          <td class="apps-name">
+            <a
+              title="Appstore page"
+              :href="`https://apps.yunohost.org/app/${app.id}`"
+              target="_blank"
+            >
+              <img
+                :src="`https://raw.githubusercontent.com/YunoHost/apps/refs/heads/main/logos/${app.id}.png`"
+              />
+              <span>{{ app.name }}</span>
+            </a>
+          </td>
+          <td class="apps-installations">{{ app.count }} ({{ app.percent }}%)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </template>
 
 <style scoped>
+.apps-container {
+  display: flex;
+}
+
+.apps-chart {
+  flex: 50%;
+}
+
 .apps-table {
   background-color: var(--color-background-mute);
   border-collapse: collapse;
-  width: 100%;
+  flex: 50%;
 }
 
 .apps-table th {
