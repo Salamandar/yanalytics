@@ -51,6 +51,7 @@ onMounted(async () => {
       datasets: [
         {
           label: 'Number of apps',
+          // @ts-expect-error data is wrongly typed and doesn't accept date as string
           data: history,
           cubicInterpolationMode: 'monotone',
         },
