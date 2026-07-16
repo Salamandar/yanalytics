@@ -34,10 +34,12 @@ def get_config(path: Path) -> Config:
         elif path.name.endswith(".toml"):
             data = tomllib.load(path.open("rb"))
         else:
-            raise RuntimeError(f"Could not determine format of config {path}")
+            msg = f"Could not determine format of config {path}"
+            raise RuntimeError(msg)
         config = Config(**data)
     except FileNotFoundError:
-        raise RuntimeError(f"Config file {path} not found!") from None
+        msg = f"Config file {path} not found!"
+        raise RuntimeError(msg) from None
     except yaml.YAMLError as err:
         msg = f"Config file {path} has invalid YAML syntax:\n{err}"
         raise RuntimeError(msg) from None
@@ -45,6 +47,7 @@ def get_config(path: Path) -> Config:
         msg = f"Config file {path} has invalid TOML syntax:\n{err}"
         raise RuntimeError(msg) from None
     except ValidationError as err:
-        raise RuntimeError(f"Invalid config file {path}:\n{err}") from None
+        msg_0 = f"Invalid config file {path}:\n{err}"
+        raise RuntimeError(msg_0) from None
     else:
         return config

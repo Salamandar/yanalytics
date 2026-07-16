@@ -45,15 +45,12 @@ lint.ignore = [
     "C",        # Code complexity
     "COM812",   # Missing trailing comma
     "D",        # pydocstyle
-    "EM",       # Exception message
     "ERA001",   # Found commented-out code
     "EXE001",   # Shebang is present but file is not executable
     "FIX002",   # TODOs
-    "PLR2004",  # magic-value-comparison
     "RET504",   # Unnecessary assignment before `return` statement
     "S603",     # `subprocess` call: check for execution of untrusted input
     "TD",       # TODO format
-    "TRY003",   # Avoid specifying long messages outside the exception class
 ]
 
 [tool.ruff.lint.per-file-ignores]

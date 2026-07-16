@@ -15,7 +15,7 @@ class YanalyticsInstance:
         self.uuid = self._uuid(machine_id)
 
     def _raise_err(self, response: requests.Response) -> None:
-        if response.status_code is None or response.status_code >= 400:
+        if not response.ok:
             msg: str | dict[str, str] = response.json()
             if isinstance(msg, dict):
                 msg = msg["error"]
