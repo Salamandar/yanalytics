@@ -62,7 +62,7 @@ def reduce_domains_nb(domains: int) -> int:
 def geoip_check() -> bool:
     # Print only once
     if not shutil.which("geoiplookup"):
-        logging.error("Tool geoiplookup not installed!")
+        logging.getLogger().error("Tool geoiplookup not installed!")
         return False
     return True
 

@@ -140,8 +140,9 @@ class YanalyticsDatabase:
             session.commit()
 
     async def aggregate(self) -> None:
-        now = _timestamp_default()
-        with Session(self.engine) as session:
-            instances_nb = session.query(InstanceAnalytics).count()
+        pass
+        # now = _timestamp_default()
+        # with Session(self.engine) as session:
+        #     instances_nb = session.query(InstanceAnalytics).count()
 
-            pass
+        #     pass

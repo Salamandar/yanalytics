@@ -27,7 +27,7 @@ class YanalyticsInstance:
         return hashlib.sha512((salt + machine_id).encode()).hexdigest()
 
     def push_stats(self) -> None:
-        data = {
+        data: dict[str, str | dict[str, str]] = {
             "uuid": self.uuid,
             "versions": {
                 "debian": "",
@@ -35,13 +35,13 @@ class YanalyticsInstance:
             },
         }
         url = f"{self.server}/api/v1/instance/analytic"
-        response = requests.post(url, json=data)
+        response = requests.post(url, json=data, timeout=60)
         self._raise_err(response)
 
     def instance_delete(self) -> None:
         data = {"uuid": str(self.uuid)}
         url = f"{self.server}/api/v1/instance"
-        response = requests.delete(url, params=data)
+        response = requests.delete(url, params=data, timeout=60)
         self._raise_err(response)
 
 

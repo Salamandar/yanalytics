@@ -24,7 +24,7 @@ def create_app(config_path: Path) -> FastAPI:
     database = YanalyticsDatabase(config.database)
 
     @asynccontextmanager
-    async def lifespan(app: FastAPI) -> AsyncGenerator[None]:
+    async def lifespan(_: FastAPI) -> AsyncGenerator[None]:
         database.initialize()
         yield
 
@@ -32,7 +32,7 @@ def create_app(config_path: Path) -> FastAPI:
 
     @app.exception_handler(RequestValidationError)
     async def validation_exception_handler(
-        request: Request, exc: RequestValidationError
+        _: Request, exc: RequestValidationError
     ) -> JSONResponse:
         def join_error_loc(loc: list[str]) -> str:
             if loc[0] == "body":
@@ -49,13 +49,13 @@ def create_app(config_path: Path) -> FastAPI:
 
     # Push a new analytic
     @app.post("/api/v1/instance/analytic", status_code=201)
-    async def post_analytic(item: Analytic) -> dict:
+    async def post_analytic(item: Analytic) -> dict[str, str | Analytic]:
         logger.debug("Getting analytic %s", item)
         await database.insert_analytics(item)
         return {"message": "Item created successfully", "item": item}
 
     @app.delete("/api/v1/instance", status_code=202)
-    async def delete_machine(uuid: str) -> dict:
+    async def delete_machine(uuid: str) -> dict[str, str]:
         logger.debug("Deleting machine %s", uuid)
         await database.delete_machine(uuid)
         return {}
